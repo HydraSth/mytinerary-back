@@ -20,9 +20,13 @@ const citiesSchema = new Schema({
     description:{
        type: String,
        required:true
-    } 
+    },
+    itineraries:[{
+        type: Schema.Types.ObjectId,
+        ref:'Intinerary'
+    }]
 })
 
-const City = model('City', citiesSchema)
+const instance_city = model('City', citiesSchema)
 
-module.exports = City
+module.exports = instance_city

@@ -2,14 +2,15 @@ const City= require("../models/city")
 
 const updateCity = async(req,res) => {
     const {id} =req.params;
-    const {country, name, photo,rating,description}=req.body;
+    const {country, name, photo,rating,description,intineraries}=req.body;
     try {
         await City.updateOne({_id:id},{
             country:`${country}`,
             name:`${name}`,
             photo:`${photo}`,
             rating:`${rating}`,
-            description:`${description}`
+            description:`${description}`,
+            intineraries:`${intineraries}`
         })
         res.status(200).json({
             message:"City updated"
@@ -18,6 +19,21 @@ const updateCity = async(req,res) => {
         res.status(500).json({
             mesage:error.message
         })
+    }
+}
+
+const updateCities = async(req,res) => {
+    const cities = req.body;
+    try {
+        const updatedCities = await City.updateMany({}, cities);
+        res.status(201).json({
+            message: "Cities updated",
+            cities: updatedCities
+        });
+    } catch (e) {
+        res.status(500).json({
+            message: e.message
+        });
     }
 }
 
@@ -74,21 +90,43 @@ const dbCities= async(req,res) => {
 const getCity= async(req, res) => {
     const {name} =req.query;
     try {
-        let cities= await City.find()
-        if (name) {
-            let city_filtered=cities.filter(city => city.name == name)
-            if (city_filtered.length > 0) {
-                res.send({
-                    message:"Sucessfully",
-                    city:city_filtered
-                })
-            }else{
-                res.status(404).json({
-                    message:"City not found"
-                })
-            }
+        const patron = new RegExp(`^${name}`,"i");
+        let city_filtered= await City.find({ name: patron });
+        if (city_filtered.length > 0) {
+            res.send({
+                message:"Sucessfully",
+                city:city_filtered
+            })
+        }else{
+            res.json({
+                message:"City not found",
+                city:[]
+            })
         }
-    } catch (error) {
+         } catch (error) {
+        res.status(500).json({
+            mesage:`Something went wrong: ${error.message}`
+        })
+    }
+}
+
+const cityItineraries= async(req, res) => {
+    const {name} =req.query;
+    try {
+        const patron = new RegExp(`^${name}`,"i");
+        let city_filtered= await City.find({ name: patron }).populate('itineraries');
+        if (city_filtered.length > 0) {
+            res.send({
+                message:"Sucessfully",
+                itineraries:city_filtered[0].itineraries
+            })
+        }else{
+            res.json({
+                message:"City not found",
+                city:[]
+            })
+        }
+         } catch (error) {
         res.status(500).json({
             mesage:`Something went wrong: ${error.message}`
         })
@@ -121,4 +159,5 @@ const deleteAll= async(req,res) => {
         })
     }
 }
-module.exports = { getCity, addCity,dbCities,addCities,deleteCity,deleteAll,updateCity}
+
+module.exports = { getCity, addCity,dbCities,addCities,deleteCity,cityItineraries,updateCity,updateCities}
