@@ -78,10 +78,16 @@ const getItineraryName=async (req,res) => {
 }
 
 const deleteItinerary=async (req,res) => {
+    const itinerary= await Intinerary.findById(req.query.id)
+    const city= await City.findById(itinerary.city)
+    let itinerary_index= city.itineraries.indexOf(req.query.id)
+    let copy_itineraries= [...city.itineraries]
+    await city.updateOne({itineraries:copy_itineraries.splice(itinerary_index,1)})
+    console.log(itinerary_index);
     try{
         await Intinerary.findByIdAndDelete(req.query.id)
         res.status(200).json({
-            message:"Intinerary deleted"
+            message:"Itinerary deleted"
         })
     }catch(e){
         res.status(500).json({

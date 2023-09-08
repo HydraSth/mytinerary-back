@@ -38,8 +38,9 @@ router.patch('/modifyItinerary',modifyItinerary)
 //Method to delete a single itinerary by id
 router.delete('/deleteItinerary',deleteItinerary)
 
-module.exports = router;
+router.use('/auth',require('./auth'))
 
+module.exports = router;
 
 //Delete method to delete all cities
 // router.delete('/deleteAllCities',deleteAll) 
