@@ -1,4 +1,4 @@
-const { VerifyPassword } = require("../middlewares/encryptAuth");
+
 const User= require("../models/user")
 
 const register=async (req,res) => {
@@ -24,30 +24,28 @@ const register=async (req,res) => {
 }
 
 const login=async (req,res) => {
-    try{
-        const {email,password} = req.body;
-        const user = await User.findOne({email:email})
-        if(user){
-            if(VerifyPassword(password,user.password)){
-                res.status(200).json({
-                    message:"User logged in",
-                    user:user
-                })
-            }else{
-                res.status(400).json({
-                    message:"Wrong password",
-                })
-            }
-        }else{
-            res.status(403).json({
-                message:"Check email"
-            })
-        }
-    }catch(e){
-        res.status(500).json({
-            message:e.message
-        })
-    }
+    res.status(200).json({
+        user:{
+            email:req.user.email,
+            id:req.user._id
+        },
+        token:req.token
+    })
 }
 
-module.exports={register,login}
+const authenticate=async (req,res) => {
+    res.status(200).json({
+        message:"User authenticated",
+        user:{
+            email:req.user.email,
+            id:req.user._id
+        },
+        token:req.token
+    })
+}
+
+module.exports={
+    register,
+    login,
+    authenticate
+}

@@ -7,6 +7,9 @@ const {Verification} = require('../middlewares/verifyAddItinerary')
 
 const router = express.Router()
 
+const {passportVerificator} = require('../middlewares/verifyAuth')
+
+
 //Cities in data base
 router.get('/dbCities',dbCities) 
 //Post method to generate a new cities
@@ -22,7 +25,7 @@ router.put('/updateCity/:id',updateCity)
 //Update method to update cities
 router.put('/updateCities',updateCities) 
 //Method to generate a new itinerary
-router.get('/cityItineraries',cityItineraries) 
+router.get('/cityItineraries',passportVerificator.authenticate("jwt",{session:false}),cityItineraries) 
 
 
 //Method to generate a new itinerary

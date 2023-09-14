@@ -9,6 +9,14 @@ const userSchema = new Schema({
         type:String,
         required:true
     },
+    month_birth:{
+        type:String,
+        required:true
+    },
+    year_birth:{
+        type:String,
+        required:true
+    },
     email:{
         type:String,
         required:true
@@ -24,6 +32,9 @@ const userSchema = new Schema({
     country:{
         type:String,
         required:true
+    },
+    mail_contact:{
+        type:Boolean
     }
 })
 
