@@ -14,12 +14,12 @@ const passportVerificator=passport.use(
     }, async (payload,done)=>{
         try{
             const user=await User.findOne({email:payload.email})
-                if(user){
+            if(user){
                     return done(null,user)
                 }else{
                     return done(null)
                 }
-        }catch(e){
+            }catch(e){
             return done(e)
         }
         }
