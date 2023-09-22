@@ -27,7 +27,7 @@ const passportVerificator=passport.use(
 );
 
 const userSchema=Joi.object({
-    name:Joi.string().max(25).alphanum().required().messages({
+    name:Joi.string().max(25).required().messages({
         'string.max':'Name must be less than 25 characters',
         'string.empty':'Name cannot be empty',
         'string.required':'Name is required',
