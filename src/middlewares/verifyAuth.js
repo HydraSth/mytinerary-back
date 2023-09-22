@@ -59,9 +59,7 @@ const userSchema=Joi.object({
         'string.required':'Password is required',
         'any.required':'Password is required'
     }),
-    photo:Joi.string().uri().messages({
-        'string.uri':'Photo must be a valid url'
-    }),
+    photo:Joi.string().allow(""),
     country:Joi.string().min(3).required().messages({
         'string.min':'Country must be at least 3 characters',
         'string.empty':'Country cannot be empty',
