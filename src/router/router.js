@@ -45,5 +45,10 @@ router.use('/auth',require('./auth'))
 
 module.exports = router;
 
+const {deleteAllUsers} = require('../controllers/loginController')
+
+//Method to delete all users 
+router.delete('/deleteAllUsers',deleteAllUsers)
+
 //Delete method to delete all cities
 // router.delete('/deleteAllCities',deleteAll) 

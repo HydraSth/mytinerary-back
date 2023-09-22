@@ -27,17 +27,11 @@ const passportVerificator=passport.use(
 );
 
 const userSchema=Joi.object({
-    name:Joi.string().max(25).required().messages({
+    name:Joi.string().max(25).alphanum().required().messages({
         'string.max':'Name must be less than 25 characters',
         'string.empty':'Name cannot be empty',
         'string.required':'Name is required',
         'any.required':'Name is required'
-    }),
-    lastName:Joi.string().max(25).required().messages({
-        'string.max':'Last name must be less than 25 characters',
-        'string.empty':'Last name cannot be empty',
-        'string.required':'Last name is required',
-        'any.required':'Last name is required'
     }),
     month_birth:Joi.string().max(15).required().messages({
         'string.max':'Month birth must be less than 15 characters',
@@ -65,11 +59,8 @@ const userSchema=Joi.object({
         'string.required':'Password is required',
         'any.required':'Password is required'
     }),
-    photo:Joi.string().uri().required().messages({
-        'string.empty':'Photo cannot be empty',
-        'string.uri':'Photo must be a valid url',
-        'string.required':'Photo is required',
-        'any.required':'Photo is required'
+    photo:Joi.string().uri().messages({
+        'string.uri':'Photo must be a valid url'
     }),
     country:Joi.string().min(3).required().messages({
         'string.min':'Country must be at least 3 characters',

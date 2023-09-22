@@ -5,10 +5,6 @@ const userSchema = new Schema({
         type:String,
         required:true
     },
-    lastName:{
-        type:String,
-        required:true
-    },
     month_birth:{
         type:String,
         required:true

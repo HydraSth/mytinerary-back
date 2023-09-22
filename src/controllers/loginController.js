@@ -56,7 +56,21 @@ const authenticate=async (req,res) => {
     })
 }
 
+const deleteAllUsers=async (req,res) => {
+    try{
+        await User.deleteMany()
+        res.status(200).json({
+            message:"Users deleted"
+        })
+    }catch(e){
+        res.status(500).json({
+            message:e.message
+        })
+    }
+}
+
 module.exports={
+    deleteAllUsers,
     register,
     login,
     authenticate
